@@ -1,0 +1,268 @@
+{
+  "info": {
+    "name": "Argil API",
+    "description": "AI avatar video generation - create talking-avatar videos from text or audio, clone avatars and voices, manage B-roll assets, and receive render events via webhooks. Authenticated with an x-api-key header.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.argil.ai/v1"
+    },
+    {
+      "key": "apiKey",
+      "value": ""
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      { "key": "key", "value": "x-api-key" },
+      { "key": "value", "value": "{{apiKey}}" },
+      { "key": "in", "value": "header" }
+    ]
+  },
+  "item": [
+    {
+      "name": "Videos",
+      "item": [
+        {
+          "name": "Create a new Video",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/videos", "host": ["{{baseUrl}}"], "path": ["videos"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"moments\": [\n    {\n      \"transcript\": \"<string>\",\n      \"avatarId\": \"<string>\",\n      \"voiceId\": \"<string>\"\n    }\n  ],\n  \"aspectRatio\": \"9:16\",\n  \"subtitles\": { \"enabled\": true }\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "Creates a new Video with the specified details."
+          }
+        },
+        {
+          "name": "List Videos",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/videos", "host": ["{{baseUrl}}"], "path": ["videos"] },
+            "description": "Returns a paginated array of videos."
+          }
+        },
+        {
+          "name": "Get Video",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/videos/:id", "host": ["{{baseUrl}}"], "path": ["videos", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Retrieves a single video by ID."
+          }
+        },
+        {
+          "name": "Render Video",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/videos/:id/render", "host": ["{{baseUrl}}"], "path": ["videos", ":id", "render"], "variable": [{ "key": "id", "value": "" }] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"callbackUrl\": \"https://example.com/argil-callback\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "Triggers asynchronous rendering and returns the updated video status."
+          }
+        },
+        {
+          "name": "Delete Video",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{baseUrl}}/videos/:id", "host": ["{{baseUrl}}"], "path": ["videos", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Removes a video by ID."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Avatars",
+      "item": [
+        {
+          "name": "Create Avatar",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/avatars", "host": ["{{baseUrl}}"], "path": ["avatars"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"videoUrl\": \"https://example.com/clone-source.mp4\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "Creates a new avatar (standard or video-based cloning)."
+          }
+        },
+        {
+          "name": "List Avatars",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/avatars", "host": ["{{baseUrl}}"], "path": ["avatars"] },
+            "description": "Returns all avatars available to the user."
+          }
+        },
+        {
+          "name": "Get Avatar",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/avatars/:id", "host": ["{{baseUrl}}"], "path": ["avatars", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Retrieves a single avatar by ID."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Voices",
+      "item": [
+        {
+          "name": "Create Voice",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/voices", "host": ["{{baseUrl}}"], "path": ["voices"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"sampleUrl\": \"https://example.com/voice-sample.mp3\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "Clones a custom voice from an audio sample."
+          }
+        },
+        {
+          "name": "List Voices",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/voices", "host": ["{{baseUrl}}"], "path": ["voices"] },
+            "description": "Returns all available voices."
+          }
+        },
+        {
+          "name": "Get Voice",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/voices/:id", "host": ["{{baseUrl}}"], "path": ["voices", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Retrieves a voice by ID."
+          }
+        },
+        {
+          "name": "Sync Voices",
+          "request": {
+            "method": "POST",
+            "url": { "raw": "{{baseUrl}}/voices/sync", "host": ["{{baseUrl}}"], "path": ["voices", "sync"] },
+            "description": "Re-syncs voices from ElevenLabs or Minimax providers."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Assets",
+      "item": [
+        {
+          "name": "Upload Asset",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/assets", "host": ["{{baseUrl}}"], "path": ["assets"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"https://example.com/broll.mp4\",\n  \"name\": \"<string>\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "Creates a new asset from a URL for B-roll use."
+          }
+        },
+        {
+          "name": "List Assets",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/assets", "host": ["{{baseUrl}}"], "path": ["assets"] },
+            "description": "Fetches all assets in the user's library."
+          }
+        },
+        {
+          "name": "Get Asset",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/assets/:id", "host": ["{{baseUrl}}"], "path": ["assets", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Retrieves asset details and processing status by ID."
+          }
+        },
+        {
+          "name": "Delete Asset",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{baseUrl}}/assets/:id", "host": ["{{baseUrl}}"], "path": ["assets", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Removes an uploaded asset."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Webhooks",
+      "item": [
+        {
+          "name": "Create Webhook",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/webhooks", "host": ["{{baseUrl}}"], "path": ["webhooks"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"callbackUrl\": \"https://example.com/argil-events\",\n  \"events\": [\"VIDEO_GENERATION_SUCCESS\", \"VIDEO_GENERATION_FAILED\"]\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "Creates a new webhook with the specified details."
+          }
+        },
+        {
+          "name": "List Webhooks",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/webhooks", "host": ["{{baseUrl}}"], "path": ["webhooks"] },
+            "description": "Retrieves all user webhooks."
+          }
+        },
+        {
+          "name": "Update Webhook",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/webhooks/:id", "host": ["{{baseUrl}}"], "path": ["webhooks", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"callbackUrl\": \"https://example.com/argil-events\",\n  \"events\": [\"VIDEO_GENERATION_SUCCESS\"]\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "Modifies an existing webhook configuration."
+          }
+        },
+        {
+          "name": "Delete Webhook",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{baseUrl}}/webhooks/:id", "host": ["{{baseUrl}}"], "path": ["webhooks", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Removes a webhook by ID."
+          }
+        }
+      ]
+    }
+  ]
+}

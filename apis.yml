@@ -1,0 +1,144 @@
+aid: argil
+url: https://raw.githubusercontent.com/api-evangelist/argil/refs/heads/main/apis.yml
+name: Argil
+kind: company
+description: Argil (Argil AI) is an AI avatar video generation platform for the creator
+  economy. Its API programmatically produces talking-avatar videos from text or audio,
+  clones custom avatars and voices, manages B-roll assets, and delivers render events
+  via webhooks - turning a script into a finished, subtitled avatar video.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- AI
+- Video Generation
+- Avatars
+- Voice Cloning
+- Content Automation
+created: '2026-07-01'
+modified: '2026-07-01'
+specificationVersion: '0.19'
+apis:
+- aid: argil:argil-videos-api
+  name: Argil Videos API
+  tags:
+  - Video
+  - Generation
+  - Rendering
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.argil.ai/api-reference/endpoint/videos.create
+  baseURL: https://api.argil.ai/v1
+  properties:
+  - url: https://docs.argil.ai/api-reference/introduction
+    type: Documentation
+  - url: https://docs.argil.ai/api-reference/endpoint/videos.create
+    type: APIReference
+  - url: openapi/argil-openapi.yml
+    type: OpenAPI
+  - url: collections/argil.postman_collection.json
+    type: PostmanCollection
+  - url: collections/argil.opencollection.json
+    type: OpenCollection
+  description: Create, render, retrieve, list, and delete avatar videos. A video is
+    defined as a set of moments (transcript or audio) mapped to an avatar and voice,
+    with subtitles, aspect ratio, auto B-rolls, and background music, then rendered
+    asynchronously into an MP4.
+- aid: argil:argil-avatars-api
+  name: Argil Avatars API
+  tags:
+  - Avatars
+  - Cloning
+  - Digital Twin
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.argil.ai/api-reference/endpoint/avatars.create.video
+  baseURL: https://api.argil.ai/v1
+  properties:
+  - url: https://docs.argil.ai/api-reference/introduction
+    type: Documentation
+  - url: https://docs.argil.ai/api-reference/endpoint/avatars.create.video
+    type: APIReference
+  - url: openapi/argil-openapi.yml
+    type: OpenAPI
+  - url: collections/argil.postman_collection.json
+    type: PostmanCollection
+  - url: collections/argil.opencollection.json
+    type: OpenCollection
+  description: Create avatars via the standard or video-based cloning methods, and
+    list or retrieve avatars available to the account, including Argil's stock avatar
+    library and custom-trained digital twins used as moment presenters.
+- aid: argil:argil-voices-api
+  name: Argil Voices API
+  tags:
+  - Voices
+  - Voice Cloning
+  - Audio
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.argil.ai/api-reference/introduction
+  baseURL: https://api.argil.ai/v1
+  properties:
+  - url: https://docs.argil.ai/api-reference/introduction
+    type: Documentation
+  - url: openapi/argil-openapi.yml
+    type: OpenAPI
+  - url: collections/argil.postman_collection.json
+    type: PostmanCollection
+  - url: collections/argil.opencollection.json
+    type: OpenCollection
+  description: Clone a custom voice from an audio sample, list and retrieve available
+    voices, and re-sync voices from underlying providers (ElevenLabs, Minimax) so
+    they can be attached to video moments.
+- aid: argil:argil-assets-api
+  name: Argil Assets API
+  tags:
+  - Assets
+  - B-Roll
+  - Media
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.argil.ai/api-reference/introduction
+  baseURL: https://api.argil.ai/v1
+  properties:
+  - url: https://docs.argil.ai/api-reference/introduction
+    type: Documentation
+  - url: openapi/argil-openapi.yml
+    type: OpenAPI
+  - url: collections/argil.postman_collection.json
+    type: PostmanCollection
+  - url: collections/argil.opencollection.json
+    type: OpenCollection
+  description: Upload media assets from a URL for use as B-roll and background music
+    inside videos, then get, list, and delete them from the account's asset library.
+- aid: argil:argil-webhooks-api
+  name: Argil Webhooks API
+  tags:
+  - Webhooks
+  - Events
+  - Callbacks
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.argil.ai/api-reference/introduction
+  baseURL: https://api.argil.ai/v1
+  properties:
+  - url: https://docs.argil.ai/api-reference/introduction
+    type: Documentation
+  - url: openapi/argil-openapi.yml
+    type: OpenAPI
+  - url: collections/argil.postman_collection.json
+    type: PostmanCollection
+  - url: collections/argil.opencollection.json
+    type: OpenCollection
+  description: Register, list, update, and delete webhooks that fire on video render
+    events (VIDEO_GENERATION_SUCCESS, VIDEO_GENERATION_FAILED) so integrations can
+    react to completed or failed renders without polling.
+common:
+- type: LinkedIn
+  url: https://www.linkedin.com/company/argil-ai
+- type: Website
+  url: https://www.argil.ai/
+- type: Documentation
+  url: https://docs.argil.ai
+- type: Plans
+  url: plans/argil-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/argil-rate-limits.yml
+- type: FinOps
+  url: finops/argil-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

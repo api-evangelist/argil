@@ -1,0 +1,74 @@
+aid: argil
+name: Argil
+review:
+  question: Does Argil expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-01'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was created. Argil's asynchronous surface is delivered
+    via HTTP webhooks (event callbacks), not a streaming SSE or WebSocket
+    channel. Webhooks are modeled as REST resources in the OpenAPI definition.
+findings:
+  summary: |
+    Argil does not publish a documented public WebSocket API. The Argil platform
+    exposes REST (HTTPS) endpoints under https://api.argil.ai/v1, authenticated
+    with an x-api-key header. Video rendering is asynchronous: clients POST to
+    /videos/{id}/render and are notified of completion via HTTP webhooks
+    (VIDEO_GENERATION_SUCCESS / VIDEO_GENERATION_FAILED), either registered as
+    persistent webhooks or supplied as a one-shot callbackUrl on the render
+    request. No realtime, bidirectional, or streaming WebSocket (ws:// or wss://)
+    endpoint is documented.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.argil.ai/v1
+      documented: true
+    - protocol: Webhook
+      scheme: https
+      note: Server-to-client HTTP POST callbacks on render events. Not WebSocket.
+      documented: true
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented in Argil's API reference as of the review date.
+  endpointsConfirmedRest:
+    - POST   https://api.argil.ai/v1/videos
+    - GET    https://api.argil.ai/v1/videos
+    - GET    https://api.argil.ai/v1/videos/{id}
+    - DELETE https://api.argil.ai/v1/videos/{id}
+    - POST   https://api.argil.ai/v1/videos/{id}/render
+    - POST   https://api.argil.ai/v1/avatars
+    - GET    https://api.argil.ai/v1/avatars
+    - GET    https://api.argil.ai/v1/avatars/{id}
+    - POST   https://api.argil.ai/v1/voices
+    - GET    https://api.argil.ai/v1/voices
+    - GET    https://api.argil.ai/v1/voices/{id}
+    - POST   https://api.argil.ai/v1/voices/sync
+    - POST   https://api.argil.ai/v1/assets
+    - GET    https://api.argil.ai/v1/assets
+    - GET    https://api.argil.ai/v1/assets/{id}
+    - DELETE https://api.argil.ai/v1/assets/{id}
+    - POST   https://api.argil.ai/v1/webhooks
+    - GET    https://api.argil.ai/v1/webhooks
+    - PUT    https://api.argil.ai/v1/webhooks/{id}
+    - DELETE https://api.argil.ai/v1/webhooks/{id}
+sources:
+  - url: https://docs.argil.ai/api-reference/introduction
+    type: Documentation
+    note: Lists REST base URL https://api.argil.ai/v1 and x-api-key auth; no WebSocket mentioned.
+  - url: https://docs.argil.ai/api-reference/endpoint/videos.create
+    type: APIReference
+    note: Video creation and render are HTTPS REST; render completion is delivered via webhook.
+  - url: https://docs.argil.ai/llms.txt
+    type: Documentation
+    note: Enumerates videos, avatars, voices, assets, subtitles, and webhooks resources - all REST.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface exists, and the asynchronous surface is HTTP
+    webhook callbacks rather than an SSE/WebSocket stream, so no AsyncAPI
+    document was authored. Webhooks are represented as REST resources in
+    openapi/argil-openapi.yml.

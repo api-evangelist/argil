@@ -1,0 +1,75 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Argil
+providerId: argil
+created: '2026-07-01'
+modified: '2026-07-01'
+reconciled: false
+tags:
+- AI
+- Video Generation
+- Avatars
+- Rate Limiting
+- Quotas
+- Throttling
+description: >-
+  Argil's practical throughput ceiling is the account's monthly credit balance:
+  video generation consumes credits (roughly 1,600 credits per 25 minutes of
+  video), so the number of renders per month is bounded by the subscription
+  tier. The API also enforces per-key request throttling and per-request
+  constraints - moments are limited to a 500-character transcript or ~40 seconds
+  of audio, extras are capped at 10 key-value pairs, and render callbacks must
+  be HTTPS. Specific per-second/per-minute request ceilings are not reconciled
+  in this artifact.
+notes: >-
+  Confirm current per-key request limits, concurrency caps, and credit
+  conversion on the Argil docs and dashboard at reconciliation; values change by
+  tier.
+sources:
+- https://docs.argil.ai/api-reference/introduction
+- https://www.argil.ai/pricing
+responseCodes:
+  throttled: 429
+limits:
+- name: Monthly Credit Quota
+  scope: account
+  metric: credits
+  limit: per subscription tier (e.g. 1,600 Classic / 6,000 Pro / 18,000 Scale)
+  notes: Credits are consumed per generated video; ~1,600 credits ~= 25 minutes.
+- name: API Request Rate
+  scope: api_key
+  metric: requests
+  limit: see provider documentation
+  notes: Per-key request throttling; exceeding it returns HTTP 429.
+- name: Transcript Length Per Moment
+  scope: request
+  metric: characters
+  limit: 500
+  notes: Each moment transcript is capped at 500 characters.
+- name: Audio Length Per Moment
+  scope: request
+  metric: seconds
+  limit: 40
+  notes: Each moment audioUrl clip is limited to roughly 40 seconds.
+- name: Extras Per Video
+  scope: request
+  metric: key_value_pairs
+  limit: 10
+  notes: Custom metadata capped at 10 key-value pairs (256 chars each).
+policies:
+- name: Credit-Bounded Throughput
+  description: >-
+    Generation volume is governed by the monthly credit balance; upgrade the
+    tier or purchase credits to raise the ceiling.
+- name: Asynchronous Rendering
+  description: >-
+    Rendering is asynchronous; use webhooks (VIDEO_GENERATION_SUCCESS /
+    VIDEO_GENERATION_FAILED) instead of tight polling to stay within request limits.
+- name: Backoff Strategy
+  description: >-
+    Clients should implement exponential backoff with jitter and honor
+    Retry-After on 429 responses.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

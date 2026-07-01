@@ -1,0 +1,380 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Argil API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "apikey": {
+        "key": "x-api-key",
+        "value": "{{apiKey}}",
+        "in": "header"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Videos",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a new Video",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.argil.ai/v1/videos",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"name\": \"<string>\",\n  \"moments\": [\n    {\n      \"transcript\": \"<string>\",\n      \"avatarId\": \"<string>\",\n      \"voiceId\": \"<string>\"\n    }\n  ],\n  \"aspectRatio\": \"9:16\",\n  \"subtitles\": { \"enabled\": true }\n}"
+            }
+          },
+          "docs": "Creates a new Video with the specified details."
+        },
+        {
+          "info": {
+            "name": "List Videos",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.argil.ai/v1/videos"
+          },
+          "docs": "Returns a paginated array of videos."
+        },
+        {
+          "info": {
+            "name": "Get Video",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.argil.ai/v1/videos/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the video to retrieve."
+              }
+            ]
+          },
+          "docs": "Retrieves a single video by ID."
+        },
+        {
+          "info": {
+            "name": "Render Video",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.argil.ai/v1/videos/:id/render",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the video to render."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{\n  \"callbackUrl\": \"https://example.com/argil-callback\"\n}"
+            }
+          },
+          "docs": "Triggers asynchronous rendering and returns the updated video status."
+        },
+        {
+          "info": {
+            "name": "Delete Video",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.argil.ai/v1/videos/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the video to delete."
+              }
+            ]
+          },
+          "docs": "Removes a video by ID."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Avatars",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Avatar",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.argil.ai/v1/avatars",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"name\": \"<string>\",\n  \"videoUrl\": \"https://example.com/clone-source.mp4\"\n}"
+            }
+          },
+          "docs": "Creates a new avatar (standard or video-based cloning)."
+        },
+        {
+          "info": {
+            "name": "List Avatars",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.argil.ai/v1/avatars"
+          },
+          "docs": "Returns all avatars available to the user."
+        },
+        {
+          "info": {
+            "name": "Get Avatar",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.argil.ai/v1/avatars/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the avatar to retrieve."
+              }
+            ]
+          },
+          "docs": "Retrieves a single avatar by ID."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Voices",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Voice",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.argil.ai/v1/voices",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"name\": \"<string>\",\n  \"sampleUrl\": \"https://example.com/voice-sample.mp3\"\n}"
+            }
+          },
+          "docs": "Clones a custom voice from an audio sample."
+        },
+        {
+          "info": {
+            "name": "List Voices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.argil.ai/v1/voices"
+          },
+          "docs": "Returns all available voices."
+        },
+        {
+          "info": {
+            "name": "Get Voice",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.argil.ai/v1/voices/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the voice to retrieve."
+              }
+            ]
+          },
+          "docs": "Retrieves a voice by ID."
+        },
+        {
+          "info": {
+            "name": "Sync Voices",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.argil.ai/v1/voices/sync"
+          },
+          "docs": "Re-syncs voices from ElevenLabs or Minimax providers."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Assets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Upload Asset",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.argil.ai/v1/assets",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"url\": \"https://example.com/broll.mp4\",\n  \"name\": \"<string>\"\n}"
+            }
+          },
+          "docs": "Creates a new asset from a URL for B-roll use."
+        },
+        {
+          "info": {
+            "name": "List Assets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.argil.ai/v1/assets"
+          },
+          "docs": "Fetches all assets in the user's library."
+        },
+        {
+          "info": {
+            "name": "Get Asset",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.argil.ai/v1/assets/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the asset to retrieve."
+              }
+            ]
+          },
+          "docs": "Retrieves asset details and processing status by ID."
+        },
+        {
+          "info": {
+            "name": "Delete Asset",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.argil.ai/v1/assets/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the asset to delete."
+              }
+            ]
+          },
+          "docs": "Removes an uploaded asset."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Webhooks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.argil.ai/v1/webhooks",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"callbackUrl\": \"https://example.com/argil-events\",\n  \"events\": [\"VIDEO_GENERATION_SUCCESS\", \"VIDEO_GENERATION_FAILED\"]\n}"
+            }
+          },
+          "docs": "Creates a new webhook with the specified details."
+        },
+        {
+          "info": {
+            "name": "List Webhooks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.argil.ai/v1/webhooks"
+          },
+          "docs": "Retrieves all user webhooks."
+        },
+        {
+          "info": {
+            "name": "Update Webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.argil.ai/v1/webhooks/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the webhook to update."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{\n  \"callbackUrl\": \"https://example.com/argil-events\",\n  \"events\": [\"VIDEO_GENERATION_SUCCESS\"]\n}"
+            }
+          },
+          "docs": "Modifies an existing webhook configuration."
+        },
+        {
+          "info": {
+            "name": "Delete Webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.argil.ai/v1/webhooks/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the webhook to delete."
+              }
+            ]
+          },
+          "docs": "Removes a webhook by ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

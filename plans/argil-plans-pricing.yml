@@ -1,0 +1,149 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Argil
+providerId: argil
+created: '2026-07-01'
+modified: '2026-07-01'
+reconciled: true
+tags:
+- AI
+- Video Generation
+- Avatars
+- Voice Cloning
+- Plans
+description: >-
+  Argil sells subscription tiers metered in credits, where credits convert to
+  minutes of generated avatar video (roughly 1,600 credits ~= 25 minutes). API
+  access is included starting on the Classic tier and carries up through Pro,
+  Scale, and Enterprise. Higher tiers add more credits, unlimited avatar styles,
+  additional workspace seats, and priority support. Annual billing discounts the
+  monthly rate by roughly 30%.
+notes: >-
+  Credit-to-minute conversion and credit allotments are approximate as published
+  on the Argil pricing page; verify current allotments and per-tier features at
+  reconciliation.
+sources:
+- https://www.argil.ai/pricing
+- https://docs.argil.ai/api-reference/introduction
+plans:
+- id: argil-classic
+  name: Classic
+  type: subscription
+  description: >-
+    Entry subscription with API access, ~25 minutes of monthly video, a stock
+    avatar library, and magic video editing.
+  entries:
+  - label: Monthly Subscription
+    name: classic_subscription
+    type: flat
+    metric: subscription
+    limit: 1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $39/month ($27/month billed annually)
+    userMultiplied: false
+  - label: Included Credits
+    name: classic_credits
+    type: quota
+    metric: credits
+    limit: 1600
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: included (~25 minutes of video)
+    userMultiplied: false
+  elements:
+  - name: API Access
+  - name: 100+ Argil Avatars
+  - name: 10 Avatar Styles
+  - name: Magic Video Editing
+- id: argil-pro
+  name: Pro
+  type: subscription
+  description: >-
+    Higher-volume subscription with ~100 minutes of monthly video, unlimited
+    avatar styles, style editing, and priority support.
+  entries:
+  - label: Monthly Subscription
+    name: pro_subscription
+    type: flat
+    metric: subscription
+    limit: 1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $149/month ($104/month billed annually)
+    userMultiplied: false
+  - label: Included Credits
+    name: pro_credits
+    type: quota
+    metric: credits
+    limit: 6000
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: included (~100 minutes of video)
+    userMultiplied: false
+  elements:
+  - name: API Access
+  - name: Unlimited Avatar Styles
+  - name: Style Editing
+  - name: Priority Support
+- id: argil-scale
+  name: Scale
+  type: subscription
+  description: >-
+    Team subscription with the largest standard credit pool and multiple
+    workspace seats.
+  entries:
+  - label: Monthly Subscription
+    name: scale_subscription
+    type: flat
+    metric: subscription
+    limit: 1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $499/month ($349/month billed annually)
+    userMultiplied: false
+  - label: Included Credits
+    name: scale_credits
+    type: quota
+    metric: credits
+    limit: 18000
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: included
+    userMultiplied: false
+  elements:
+  - name: API Access
+  - name: Unlimited Avatar Styles
+  - name: 3 Workspace Seats
+- id: argil-enterprise
+  name: Enterprise
+  type: enterprise
+  description: >-
+    Custom subscription with negotiated credits, custom branded assets, a
+    dedicated account manager, and early feature access. Contact Argil sales.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: API Access
+  - name: Custom Credits
+  - name: Custom Branded Assets
+  - name: Dedicated Account Manager
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
