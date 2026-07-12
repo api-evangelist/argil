@@ -127,10 +127,16 @@ apis:
     events (VIDEO_GENERATION_SUCCESS, VIDEO_GENERATION_FAILED) so integrations can
     react to completed or failed renders without polling.
 common:
+- type: DomainSecurity
+  url: security/argil-domain-security.yml
+- type: Authentication
+  url: authentication/argil-authentication.yml
 - type: LinkedIn
   url: https://www.linkedin.com/company/argil-ai
 - type: Website
   url: https://www.argil.ai/
+- type: Blog
+  url: https://www.argil.ai/blog
 - type: Documentation
   url: https://docs.argil.ai
 - type: Plans
