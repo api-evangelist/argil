@@ -127,6 +127,8 @@ apis:
     events (VIDEO_GENERATION_SUCCESS, VIDEO_GENERATION_FAILED) so integrations can
     react to completed or failed renders without polling.
 common:
+- type: AgenticAccess
+  url: agentic-access/argil-agentic-access.yml
 - type: DomainSecurity
   url: security/argil-domain-security.yml
 - type: Authentication
