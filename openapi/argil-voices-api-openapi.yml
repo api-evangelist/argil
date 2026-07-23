@@ -1,0 +1,174 @@
+openapi: 3.0.3
+info:
+  title: Argil Assets Voices API
+  version: '1.0'
+  description: The Argil API programmatically generates AI avatar videos. Create a video from moments (transcript or audio) mapped to an avatar and voice, render it asynchronously, clone avatars and voices, manage B-roll assets, and receive render events via webhooks. All requests authenticate with an `x-api-key` header.
+  contact:
+    name: Argil
+    url: https://www.argil.ai
+  termsOfService: https://www.argil.ai/terms
+servers:
+- url: https://api.argil.ai/v1
+  description: Argil production API
+security:
+- ApiKeyAuth: []
+tags:
+- name: Voices
+  description: Clone, list, and sync voices.
+paths:
+  /voices:
+    post:
+      tags:
+      - Voices
+      operationId: createVoice
+      summary: Clone a voice
+      description: Clones a custom voice from an audio sample.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateVoiceRequest'
+      responses:
+        '201':
+          description: Voice created (cloning may be asynchronous).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Voice'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+    get:
+      tags:
+      - Voices
+      operationId: listVoices
+      summary: List voices
+      description: Returns all voices available to the account.
+      responses:
+        '200':
+          description: A list of voices.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Voice'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /voices/{id}:
+    parameters:
+    - $ref: '#/components/parameters/VoiceId'
+    get:
+      tags:
+      - Voices
+      operationId: getVoice
+      summary: Get a voice
+      description: Retrieves a single voice by its ID.
+      responses:
+        '200':
+          description: The requested voice.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Voice'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /voices/sync:
+    post:
+      tags:
+      - Voices
+      operationId: syncVoices
+      summary: Sync voices
+      description: Re-syncs voices from underlying providers (ElevenLabs, Minimax) into the account's voice library.
+      responses:
+        '200':
+          description: Voices synced.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Voice'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    CreateVoiceRequest:
+      type: object
+      required:
+      - name
+      - sampleUrl
+      properties:
+        name:
+          type: string
+        sampleUrl:
+          type: string
+          format: uri
+          description: URL of an audio sample used to clone the voice.
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+        statusCode:
+          type: integer
+    Voice:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        provider:
+          type: string
+          enum:
+          - ELEVENLABS
+          - MINIMAX
+          - ARGIL
+        status:
+          type: string
+          enum:
+          - PROCESSING
+          - READY
+          - FAILED
+        createdAt:
+          type: string
+          format: date-time
+  parameters:
+    VoiceId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: Request validation failed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: API key issued in the Argil dashboard.

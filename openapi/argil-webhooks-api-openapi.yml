@@ -1,0 +1,173 @@
+openapi: 3.0.3
+info:
+  title: Argil Assets Webhooks API
+  version: '1.0'
+  description: The Argil API programmatically generates AI avatar videos. Create a video from moments (transcript or audio) mapped to an avatar and voice, render it asynchronously, clone avatars and voices, manage B-roll assets, and receive render events via webhooks. All requests authenticate with an `x-api-key` header.
+  contact:
+    name: Argil
+    url: https://www.argil.ai
+  termsOfService: https://www.argil.ai/terms
+servers:
+- url: https://api.argil.ai/v1
+  description: Argil production API
+security:
+- ApiKeyAuth: []
+tags:
+- name: Webhooks
+  description: Register and manage render-event webhooks.
+paths:
+  /webhooks:
+    post:
+      tags:
+      - Webhooks
+      operationId: createWebhook
+      summary: Create a webhook
+      description: Registers a webhook that fires on the specified render events. Argil POSTs the event payload to `callbackUrl`.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateWebhookRequest'
+      responses:
+        '201':
+          description: Webhook created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Webhook'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+    get:
+      tags:
+      - Webhooks
+      operationId: listWebhooks
+      summary: List webhooks
+      description: Retrieves all webhooks registered for the account.
+      responses:
+        '200':
+          description: A list of webhooks.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Webhook'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /webhooks/{id}:
+    parameters:
+    - $ref: '#/components/parameters/WebhookId'
+    put:
+      tags:
+      - Webhooks
+      operationId: updateWebhook
+      summary: Update a webhook
+      description: Modifies an existing webhook's configuration.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateWebhookRequest'
+      responses:
+        '200':
+          description: Webhook updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Webhook'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      tags:
+      - Webhooks
+      operationId: deleteWebhook
+      summary: Delete a webhook
+      description: Removes a webhook by ID.
+      responses:
+        '204':
+          description: Webhook deleted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    Webhook:
+      type: object
+      properties:
+        id:
+          type: string
+        callbackUrl:
+          type: string
+          format: uri
+        events:
+          type: array
+          items:
+            type: string
+        createdAt:
+          type: string
+          format: date-time
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+        statusCode:
+          type: integer
+    CreateWebhookRequest:
+      type: object
+      required:
+      - callbackUrl
+      - events
+      properties:
+        callbackUrl:
+          type: string
+          format: uri
+          description: HTTPS URL that receives event payloads.
+        events:
+          type: array
+          items:
+            type: string
+            enum:
+            - VIDEO_GENERATION_SUCCESS
+            - VIDEO_GENERATION_FAILED
+  responses:
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: Request validation failed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    WebhookId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: API key issued in the Argil dashboard.

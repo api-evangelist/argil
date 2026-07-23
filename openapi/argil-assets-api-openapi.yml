@@ -1,0 +1,163 @@
+openapi: 3.0.3
+info:
+  title: Argil Assets API
+  version: '1.0'
+  description: The Argil API programmatically generates AI avatar videos. Create a video from moments (transcript or audio) mapped to an avatar and voice, render it asynchronously, clone avatars and voices, manage B-roll assets, and receive render events via webhooks. All requests authenticate with an `x-api-key` header.
+  contact:
+    name: Argil
+    url: https://www.argil.ai
+  termsOfService: https://www.argil.ai/terms
+servers:
+- url: https://api.argil.ai/v1
+  description: Argil production API
+security:
+- ApiKeyAuth: []
+tags:
+- name: Assets
+  description: Upload and manage B-roll and media assets.
+paths:
+  /assets:
+    post:
+      tags:
+      - Assets
+      operationId: uploadAsset
+      summary: Upload an asset
+      description: Creates a new asset from a URL for use as B-roll or background music.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - url
+              properties:
+                url:
+                  type: string
+                  format: uri
+                  description: Public URL of the media to import.
+                name:
+                  type: string
+      responses:
+        '201':
+          description: Asset created (processing may be asynchronous).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Asset'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+    get:
+      tags:
+      - Assets
+      operationId: listAssets
+      summary: List assets
+      description: Returns all assets in the account's library.
+      responses:
+        '200':
+          description: A list of assets.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Asset'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /assets/{id}:
+    parameters:
+    - $ref: '#/components/parameters/AssetId'
+    get:
+      tags:
+      - Assets
+      operationId: getAsset
+      summary: Get an asset
+      description: Retrieves an asset and its processing status by ID.
+      responses:
+        '200':
+          description: The requested asset.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Asset'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      tags:
+      - Assets
+      operationId: deleteAsset
+      summary: Delete an asset
+      description: Removes an uploaded asset by ID.
+      responses:
+        '204':
+          description: Asset deleted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  parameters:
+    AssetId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+  schemas:
+    Asset:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        url:
+          type: string
+          format: uri
+        status:
+          type: string
+          enum:
+          - PROCESSING
+          - READY
+          - FAILED
+        createdAt:
+          type: string
+          format: date-time
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+        statusCode:
+          type: integer
+  responses:
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: Request validation failed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: API key issued in the Argil dashboard.

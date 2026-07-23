@@ -1,0 +1,309 @@
+openapi: 3.0.3
+info:
+  title: Argil Assets Videos API
+  version: '1.0'
+  description: The Argil API programmatically generates AI avatar videos. Create a video from moments (transcript or audio) mapped to an avatar and voice, render it asynchronously, clone avatars and voices, manage B-roll assets, and receive render events via webhooks. All requests authenticate with an `x-api-key` header.
+  contact:
+    name: Argil
+    url: https://www.argil.ai
+  termsOfService: https://www.argil.ai/terms
+servers:
+- url: https://api.argil.ai/v1
+  description: Argil production API
+security:
+- ApiKeyAuth: []
+tags:
+- name: Videos
+  description: Create, render, and manage avatar videos.
+paths:
+  /videos:
+    post:
+      tags:
+      - Videos
+      operationId: createVideo
+      summary: Create a new video
+      description: Creates a video from an array of moments. Each moment binds a transcript or audio URL to an avatar and voice. The video is created in an IDLE state and must be rendered to produce an MP4.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateVideoRequest'
+      responses:
+        '201':
+          description: Video created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Video'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+    get:
+      tags:
+      - Videos
+      operationId: listVideos
+      summary: List videos
+      description: Returns a paginated list of videos for the authenticated account.
+      parameters:
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: A paginated list of videos.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Video'
+                  page:
+                    type: integer
+                  pageSize:
+                    type: integer
+                  total:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /videos/{id}:
+    parameters:
+    - $ref: '#/components/parameters/VideoId'
+    get:
+      tags:
+      - Videos
+      operationId: getVideo
+      summary: Get a video
+      description: Retrieves a single video by its ID, including status and output URLs.
+      responses:
+        '200':
+          description: The requested video.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Video'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      tags:
+      - Videos
+      operationId: deleteVideo
+      summary: Delete a video
+      description: Permanently deletes a video by its ID.
+      responses:
+        '204':
+          description: Video deleted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /videos/{id}/render:
+    parameters:
+    - $ref: '#/components/parameters/VideoId'
+    post:
+      tags:
+      - Videos
+      operationId: renderVideo
+      summary: Render a video
+      description: Triggers asynchronous rendering of a video. Optionally accepts a one-shot `callbackUrl` (HTTPS) that receives a webhook when this specific render completes.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                callbackUrl:
+                  type: string
+                  format: uri
+                  description: Optional HTTPS URL to receive a one-shot notification when this render completes.
+      responses:
+        '200':
+          description: Render started; returns the updated video with status.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Video'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  parameters:
+    PageSize:
+      name: pageSize
+      in: query
+      required: false
+      schema:
+        type: integer
+        default: 20
+    Page:
+      name: page
+      in: query
+      required: false
+      schema:
+        type: integer
+        default: 1
+    VideoId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    CreateVideoRequest:
+      type: object
+      required:
+      - name
+      - moments
+      properties:
+        name:
+          type: string
+          description: Video title.
+        moments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Moment'
+        subtitles:
+          $ref: '#/components/schemas/Subtitles'
+        aspectRatio:
+          type: string
+          enum:
+          - '16:9'
+          - '9:16'
+        enableAutoBrolls:
+          type: boolean
+        model:
+          type: string
+          enum:
+          - ARGIL_V1
+          - ARGIL_ATOM
+        extras:
+          type: object
+          additionalProperties:
+            type: string
+          description: Up to 10 custom key-value pairs (max 256 chars each).
+    Moment:
+      type: object
+      description: A segment of a video pairing a script or audio with an avatar and voice.
+      properties:
+        transcript:
+          type: string
+          maxLength: 500
+          description: Text the avatar speaks. Mutually exclusive with audioUrl.
+        audioUrl:
+          type: string
+          format: uri
+          description: URL of pre-recorded audio (up to ~40s). Mutually exclusive with transcript.
+        avatarId:
+          type: string
+          description: Avatar that presents this moment.
+        voiceId:
+          type: string
+          description: Voice used to synthesize the transcript.
+        gestureSlug:
+          type: string
+          description: Optional gesture applied during the moment.
+        zoom:
+          type: number
+          description: Optional zoom level for the moment.
+      required:
+      - avatarId
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+        statusCode:
+          type: integer
+    Video:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        status:
+          type: string
+          enum:
+          - IDLE
+          - GENERATING_AUDIO
+          - GENERATING_VIDEO
+          - DONE
+          - FAILED
+        duration:
+          type: number
+          nullable: true
+        aspectRatio:
+          type: string
+        moments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Moment'
+        videoUrl:
+          type: string
+          format: uri
+          nullable: true
+        videoUrlSubtitled:
+          type: string
+          format: uri
+          nullable: true
+        previewUrl:
+          type: string
+          format: uri
+          nullable: true
+        extras:
+          type: object
+          additionalProperties:
+            type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    Subtitles:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        style:
+          type: string
+        position:
+          type: string
+        size:
+          type: integer
+  responses:
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: Request validation failed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: API key issued in the Argil dashboard.

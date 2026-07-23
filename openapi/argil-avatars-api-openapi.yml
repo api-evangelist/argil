@@ -1,0 +1,156 @@
+openapi: 3.0.3
+info:
+  title: Argil Assets Avatars API
+  version: '1.0'
+  description: The Argil API programmatically generates AI avatar videos. Create a video from moments (transcript or audio) mapped to an avatar and voice, render it asynchronously, clone avatars and voices, manage B-roll assets, and receive render events via webhooks. All requests authenticate with an `x-api-key` header.
+  contact:
+    name: Argil
+    url: https://www.argil.ai
+  termsOfService: https://www.argil.ai/terms
+servers:
+- url: https://api.argil.ai/v1
+  description: Argil production API
+security:
+- ApiKeyAuth: []
+tags:
+- name: Avatars
+  description: Create and list avatars and digital twins.
+paths:
+  /avatars:
+    post:
+      tags:
+      - Avatars
+      operationId: createAvatar
+      summary: Create an avatar
+      description: Creates a new avatar from training media. See also the video-based avatar creation flow.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAvatarRequest'
+      responses:
+        '201':
+          description: Avatar created (training may be asynchronous).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Avatar'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+    get:
+      tags:
+      - Avatars
+      operationId: listAvatars
+      summary: List avatars
+      description: Returns all avatars available to the account, including stock avatars.
+      responses:
+        '200':
+          description: A list of avatars.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Avatar'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /avatars/{id}:
+    parameters:
+    - $ref: '#/components/parameters/AvatarId'
+    get:
+      tags:
+      - Avatars
+      operationId: getAvatar
+      summary: Get an avatar
+      description: Retrieves a single avatar by its ID.
+      responses:
+        '200':
+          description: The requested avatar.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Avatar'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    CreateAvatarRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        videoUrl:
+          type: string
+          format: uri
+          description: Source video used for video-based avatar cloning.
+        imageUrl:
+          type: string
+          format: uri
+    Avatar:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+          enum:
+          - TRAINING
+          - READY
+          - FAILED
+        thumbnailUrl:
+          type: string
+          format: uri
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+        statusCode:
+          type: integer
+  responses:
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: Request validation failed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    AvatarId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: API key issued in the Argil dashboard.
