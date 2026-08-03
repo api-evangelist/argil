@@ -1,0 +1,22 @@
+{
+  "provider": "argil",
+  "sources": [
+    "argil-assets-api-openapi.yml",
+    "argil-avatars-api-openapi.yml",
+    "argil-videos-api-openapi.yml",
+    "argil-voices-api-openapi.yml",
+    "argil-webhooks-api-openapi.yml"
+  ],
+  "outputs": [
+    "argil-assets-api-openapi.yml",
+    "argil-avatars-api-openapi.yml",
+    "argil-videos-api-openapi.yml",
+    "argil-voices-api-openapi.yml",
+    "argil-webhooks-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
