@@ -1,0 +1,81 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Argil Assets Voices API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-api-key",
+      "value": "{{x-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Voices",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List voices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.argil.ai/v1/voices"
+          },
+          "docs": "Returns all voices available to the account."
+        },
+        {
+          "info": {
+            "name": "Clone a voice",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.argil.ai/v1/voices",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Clones a custom voice from an audio sample."
+        },
+        {
+          "info": {
+            "name": "Get a voice",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.argil.ai/v1/voices/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieves a single voice by its ID."
+        },
+        {
+          "info": {
+            "name": "Sync voices",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.argil.ai/v1/voices/sync"
+          },
+          "docs": "Re-syncs voices from underlying providers (ElevenLabs, Minimax) into the account's voice library."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,122 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Argil Assets Videos API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-api-key",
+      "value": "{{x-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Videos",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List videos",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.argil.ai/v1/videos",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of videos for the authenticated account."
+        },
+        {
+          "info": {
+            "name": "Create a new video",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.argil.ai/v1/videos",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a video from an array of moments. Each moment binds a transcript or audio URL to an avatar and voice. The video is created in an IDLE state and must be rendered to produce an MP4."
+        },
+        {
+          "info": {
+            "name": "Get a video",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.argil.ai/v1/videos/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieves a single video by its ID, including status and output URLs."
+        },
+        {
+          "info": {
+            "name": "Delete a video",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.argil.ai/v1/videos/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Permanently deletes a video by its ID."
+        },
+        {
+          "info": {
+            "name": "Render a video",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.argil.ai/v1/videos/:id/render",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Triggers asynchronous rendering of a video. Optionally accepts a one-shot `callbackUrl` (HTTPS) that receives a webhook when this specific render completes."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
