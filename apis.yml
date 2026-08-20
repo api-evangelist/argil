@@ -21,6 +21,12 @@ accessModel:
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/argil.png
 tags:
+- Artificial Intelligence
+- Video Generation
+- Avatars
+- Voice Cloning
+- Content Automation
+tags_raw:
 - AI
 - Video Generation
 - Avatars
@@ -116,6 +122,8 @@ apis:
   humanURL: https://docs.argil.ai/api-reference/endpoint/videos.create
   baseURL: https://api.argil.ai/v1
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI
