@@ -6,6 +6,18 @@ description: Argil (Argil AI) is an AI avatar video generation platform for the 
   economy. Its API programmatically produces talking-avatar videos from text or audio,
   clones custom avatars and voices, manages B-roll assets, and delivers render events
   via webhooks - turning a script into a finished, subtitled avatar video.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: self-serve
