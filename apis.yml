@@ -95,6 +95,8 @@ apis:
   humanURL: https://docs.argil.ai/api-reference/endpoint/videos.create
   baseURL: https://api.argil.ai/v1
   tags:
+  - Video
+  tags_raw:
   - Videos
   properties:
   - type: OpenAPI
@@ -115,6 +117,8 @@ apis:
   humanURL: https://docs.argil.ai/api-reference/endpoint/videos.create
   baseURL: https://api.argil.ai/v1
   tags:
+  - Voice
+  tags_raw:
   - Voices
   properties:
   - type: OpenAPI
