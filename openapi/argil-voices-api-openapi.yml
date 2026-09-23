@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Argil Assets Voices API
+  title: Argil Voices API
   version: '1.0'
   description: The Argil API programmatically generates AI avatar videos. Create a video from moments (transcript or audio) mapped to an avatar and voice, render it asynchronously, clone avatars and voices, manage B-roll assets, and receive render events via webhooks. All requests authenticate with an `x-api-key` header.
   contact:
@@ -96,19 +96,26 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: Request validation failed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    CreateVoiceRequest:
-      type: object
-      required:
-      - name
-      - sampleUrl
-      properties:
-        name:
-          type: string
-        sampleUrl:
-          type: string
-          format: uri
-          description: URL of an audio sample used to clone the voice.
     Error:
       type: object
       properties:
@@ -140,6 +147,18 @@ components:
         createdAt:
           type: string
           format: date-time
+    CreateVoiceRequest:
+      type: object
+      required:
+      - name
+      - sampleUrl
+      properties:
+        name:
+          type: string
+        sampleUrl:
+          type: string
+          format: uri
+          description: URL of an audio sample used to clone the voice.
   parameters:
     VoiceId:
       name: id
@@ -147,25 +166,6 @@ components:
       required: true
       schema:
         type: string
-  responses:
-    NotFound:
-      description: Resource not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ValidationError:
-      description: Request validation failed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

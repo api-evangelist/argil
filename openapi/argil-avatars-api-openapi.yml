@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Argil Assets Avatars API
+  title: Argil Avatars API
   version: '1.0'
   description: The Argil API programmatically generates AI avatar videos. Create a video from moments (transcript or audio) mapped to an avatar and voice, render it asynchronously, clone avatars and voices, manage B-roll assets, and receive render events via webhooks. All requests authenticate with an `x-api-key` header.
   contact:
@@ -79,20 +79,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    CreateAvatarRequest:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-        videoUrl:
-          type: string
-          format: uri
-          description: Source video used for video-based avatar cloning.
-        imageUrl:
-          type: string
-          format: uri
     Avatar:
       type: object
       properties:
@@ -107,9 +93,10 @@ components:
           - READY
           - FAILED
         thumbnailUrl:
-          type: string
+          type:
+          - string
+          - 'null'
           format: uri
-          nullable: true
         createdAt:
           type: string
           format: date-time
@@ -122,15 +109,29 @@ components:
           type: string
         statusCode:
           type: integer
+    CreateAvatarRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        videoUrl:
+          type: string
+          format: uri
+          description: Source video used for video-based avatar cloning.
+        imageUrl:
+          type: string
+          format: uri
   responses:
-    NotFound:
-      description: Resource not found.
+    Unauthorized:
+      description: Missing or invalid API key.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
+    NotFound:
+      description: Resource not found.
       content:
         application/json:
           schema:

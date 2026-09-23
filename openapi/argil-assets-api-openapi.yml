@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: Argil Assets API
   version: '1.0'
@@ -100,42 +100,6 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    AssetId:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: string
-  schemas:
-    Asset:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        url:
-          type: string
-          format: uri
-        status:
-          type: string
-          enum:
-          - PROCESSING
-          - READY
-          - FAILED
-        createdAt:
-          type: string
-          format: date-time
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-        code:
-          type: string
-        statusCode:
-          type: integer
   responses:
     NotFound:
       description: Resource not found.
@@ -155,6 +119,42 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+        statusCode:
+          type: integer
+    Asset:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        url:
+          type: string
+          format: uri
+        status:
+          type: string
+          enum:
+          - PROCESSING
+          - READY
+          - FAILED
+        createdAt:
+          type: string
+          format: date-time
+  parameters:
+    AssetId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

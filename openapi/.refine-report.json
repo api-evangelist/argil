@@ -1,11 +1,7 @@
 {
   "provider": "argil",
   "sources": [
-    "argil-assets-api-openapi.yml",
-    "argil-avatars-api-openapi.yml",
-    "argil-videos-api-openapi.yml",
-    "argil-voices-api-openapi.yml",
-    "argil-webhooks-api-openapi.yml"
+    "_original/argil-openapi.yml"
   ],
   "outputs": [
     "argil-assets-api-openapi.yml",
@@ -17,6 +13,16 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "argil-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "argil-assets-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "argil-avatars-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "argil-videos-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "argil-voices-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "argil-webhooks-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
