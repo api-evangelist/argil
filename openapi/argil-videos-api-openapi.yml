@@ -135,12 +135,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   responses:
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     NotFound:
       description: Resource not found.
       content:
@@ -153,7 +147,24 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
+    Subtitles:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        style:
+          type: string
+        position:
+          type: string
+        size:
+          type: integer
     Video:
       type: object
       properties:
@@ -205,52 +216,6 @@ components:
         updatedAt:
           type: string
           format: date-time
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-        code:
-          type: string
-        statusCode:
-          type: integer
-    Moment:
-      type: object
-      description: A segment of a video pairing a script or audio with an avatar and voice.
-      properties:
-        transcript:
-          type: string
-          maxLength: 500
-          description: Text the avatar speaks. Mutually exclusive with audioUrl.
-        audioUrl:
-          type: string
-          format: uri
-          description: URL of pre-recorded audio (up to ~40s). Mutually exclusive with transcript.
-        avatarId:
-          type: string
-          description: Avatar that presents this moment.
-        voiceId:
-          type: string
-          description: Voice used to synthesize the transcript.
-        gestureSlug:
-          type: string
-          description: Optional gesture applied during the moment.
-        zoom:
-          type: number
-          description: Optional zoom level for the moment.
-      required:
-      - avatarId
-    Subtitles:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-        style:
-          type: string
-        position:
-          type: string
-        size:
-          type: integer
     CreateVideoRequest:
       type: object
       required:
@@ -283,6 +248,41 @@ components:
           additionalProperties:
             type: string
           description: Up to 10 custom key-value pairs (max 256 chars each).
+    Moment:
+      type: object
+      description: A segment of a video pairing a script or audio with an avatar and voice.
+      properties:
+        transcript:
+          type: string
+          maxLength: 500
+          description: Text the avatar speaks. Mutually exclusive with audioUrl.
+        audioUrl:
+          type: string
+          format: uri
+          description: URL of pre-recorded audio (up to ~40s). Mutually exclusive with transcript.
+        avatarId:
+          type: string
+          description: Avatar that presents this moment.
+        voiceId:
+          type: string
+          description: Voice used to synthesize the transcript.
+        gestureSlug:
+          type: string
+          description: Optional gesture applied during the moment.
+        zoom:
+          type: number
+          description: Optional zoom level for the moment.
+      required:
+      - avatarId
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+        statusCode:
+          type: integer
   parameters:
     Page:
       name: page
