@@ -160,6 +160,9 @@ apis:
   - type: APIReference
     url: https://docs.argil.ai/api-reference/endpoint/avatars.create.video
 common:
+- type: CapabilityMap
+  url: capabilities/argil-capability-edges.yml
+  name: Argil Business Capability Map
 - type: AgenticAccess
   url: agentic-access/argil-agentic-access.yml
 - type: DomainSecurity
