@@ -96,16 +96,38 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: Request validation failed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
+    CreateVoiceRequest:
       type: object
+      required:
+      - name
+      - sampleUrl
       properties:
-        message:
+        name:
           type: string
-        code:
+        sampleUrl:
           type: string
-        statusCode:
-          type: integer
+          format: uri
+          description: URL of an audio sample used to clone the voice.
     Voice:
       type: object
       properties:
@@ -128,37 +150,15 @@ components:
         createdAt:
           type: string
           format: date-time
-    CreateVoiceRequest:
+    Error:
       type: object
-      required:
-      - name
-      - sampleUrl
       properties:
-        name:
+        message:
           type: string
-        sampleUrl:
+        code:
           type: string
-          format: uri
-          description: URL of an audio sample used to clone the voice.
-  responses:
-    ValidationError:
-      description: Request validation failed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+        statusCode:
+          type: integer
   parameters:
     VoiceId:
       name: id

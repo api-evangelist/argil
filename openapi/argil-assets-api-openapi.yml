@@ -100,6 +100,25 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: Request validation failed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
     Error:
       type: object
@@ -129,25 +148,6 @@ components:
         createdAt:
           type: string
           format: date-time
-  responses:
-    ValidationError:
-      description: Request validation failed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
     AssetId:
       name: id
