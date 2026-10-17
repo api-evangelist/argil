@@ -79,12 +79,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   responses:
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     NotFound:
       description: Resource not found.
       content:
@@ -93,6 +87,12 @@ components:
             $ref: '#/components/schemas/Error'
     ValidationError:
       description: Request validation failed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
       content:
         application/json:
           schema:
@@ -119,6 +119,15 @@ components:
         createdAt:
           type: string
           format: date-time
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+        statusCode:
+          type: integer
     CreateAvatarRequest:
       type: object
       required:
@@ -133,15 +142,6 @@ components:
         imageUrl:
           type: string
           format: uri
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-        code:
-          type: string
-        statusCode:
-          type: integer
   parameters:
     AvatarId:
       name: id
