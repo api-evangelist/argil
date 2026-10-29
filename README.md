@@ -1,4 +1,4 @@
-# Argil (argil)
+# Argil
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,135 +66,123 @@
 
 Argil (Argil AI) is an AI avatar video generation platform for the creator economy. Its API programmatically produces talking-avatar videos from text or audio, clones custom avatars and voices, manages B-roll assets, and delivers render events via webhooks - turning a script into a finished, subtitled avatar video.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/argil/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/argil/refs/heads/main/apis.yml)
+**Areas:** Artificial Intelligence · Video Generation · Avatars · Voice Cloning · Content Automation
 
-## Tags
+## Argil on APIs.io
 
-- AI
-- Video Generation
-- Avatars
-- Voice Cloning
-- Content Automation
+Everything profiled for Argil is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/argil/](https://apis.io/providers/argil/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (5)
 
-- **Created:** 2026-07-01
-- **Modified:** 2026-07-01
+- [Argil Assets API](https://apis.io/apis/argil/argil-assets-api/) — Upload and manage B-roll and media assets.
+- [Argil Avatars API](https://apis.io/apis/argil/argil-avatars-api/) — Create and list avatars and digital twins.
+- [Argil Videos API](https://apis.io/apis/argil/argil-videos-api/) — Create, render, and manage avatar videos.
+- [Argil Voices API](https://apis.io/apis/argil/argil-voices-api/) — Clone, list, and sync voices.
+- [Argil Webhooks API](https://apis.io/apis/argil/argil-webhooks-api/) — Register and manage render-event webhooks.
 
-## APIs
+### Published properties
 
-### Argil Videos API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Create, render, retrieve, list, and delete avatar videos. A video is defined as a set of moments (transcript or audio) mapped to an avatar and voice, with subtitles, aspect ratio, auto B-rolls, and background music, then rendered asynchronously into an MP4.
+#### Agentic access (1)
 
-- **Human URL:** [https://docs.argil.ai/api-reference/endpoint/videos.create](https://docs.argil.ai/api-reference/endpoint/videos.create)
-- **Base URL:** `https://api.argil.ai/v1`
+Which operations an agent can call, which act, and which need a human in the loop.
 
-#### Tags
+- [Argil Agentic Access](https://apis.io/agentic-access/argil/argil-agentic-access/)
 
-- Video
-- Generation
-- Rendering
+#### Collections (6)
 
-#### Properties
+Postman and Open Collection request collections.
 
-- [Documentation](https://docs.argil.ai/api-reference/introduction)
-- [API Reference](https://docs.argil.ai/api-reference/endpoint/videos.create)
-- [OpenAPI](openapi/argil-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/argil.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/argil.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Argil API](https://apis.io/collections/argil/open-argil/)
+- [Argil Assets API](https://apis.io/collections/argil/open-argil-assets-api/)
+- [Argil Assets Avatars API](https://apis.io/collections/argil/open-argil-avatars-api/)
+- [Argil Assets Videos API](https://apis.io/collections/argil/open-argil-videos-api/)
+- [Argil Assets Voices API](https://apis.io/collections/argil/open-argil-voices-api/)
+- [Argil Assets Webhooks API](https://apis.io/collections/argil/open-argil-webhooks-api/)
 
-### Argil Avatars API
+#### Security (2)
 
-Create avatars via the standard or video-based cloning methods, and list or retrieve avatars available to the account, including Argil's stock avatar library and custom-trained digital twins used as moment presenters.
+Authentication, trust centre, and vulnerability disclosure.
 
-- **Human URL:** [https://docs.argil.ai/api-reference/endpoint/avatars.create.video](https://docs.argil.ai/api-reference/endpoint/avatars.create.video)
-- **Base URL:** `https://api.argil.ai/v1`
+- [Argil Authentication](https://apis.io/security/argil/argil-authentication/)
+- [Argil Domain Security](https://apis.io/security/argil/argil-domain-security/)
 
-#### Tags
+#### Plans and pricing (1)
 
-- Avatars
-- Cloning
-- Digital Twin
+Published plans, tiers and prices.
 
-#### Properties
+- [Argil Plans Pricing](https://apis.io/plans/argil/argil-plans-pricing/)
 
-- [Documentation](https://docs.argil.ai/api-reference/introduction)
-- [API Reference](https://docs.argil.ai/api-reference/endpoint/avatars.create.video)
-- [OpenAPI](openapi/argil-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/argil.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/argil.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Rate limits (1)
 
-### Argil Voices API
+Published request limits.
 
-Clone a custom voice from an audio sample, list and retrieve available voices, and re-sync voices from underlying providers (ElevenLabs, Minimax) so they can be attached to video moments.
+- [Argil Rate Limits](https://apis.io/rate-limits/argil/argil-rate-limits/)
 
-- **Human URL:** [https://docs.argil.ai/api-reference/introduction](https://docs.argil.ai/api-reference/introduction)
-- **Base URL:** `https://api.argil.ai/v1`
+#### FinOps (1)
 
-#### Tags
+What the API costs to run, by operation.
 
-- Voices
-- Voice Cloning
-- Audio
+- [Argil Finops](https://apis.io/finops/argil/argil-finops/)
 
-#### Properties
+## Where to find this API
 
-- [Documentation](https://docs.argil.ai/api-reference/introduction)
-- [OpenAPI](openapi/argil-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/argil.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/argil.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-### Argil Assets API
-
-Upload media assets from a URL for use as B-roll and background music inside videos, then get, list, and delete them from the account's asset library.
-
-- **Human URL:** [https://docs.argil.ai/api-reference/introduction](https://docs.argil.ai/api-reference/introduction)
-- **Base URL:** `https://api.argil.ai/v1`
-
-#### Tags
-
-- Assets
-- B-Roll
-- Media
-
-#### Properties
-
-- [Documentation](https://docs.argil.ai/api-reference/introduction)
-- [OpenAPI](openapi/argil-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/argil.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/argil.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Argil Webhooks API
-
-Register, list, update, and delete webhooks that fire on video render events (VIDEO_GENERATION_SUCCESS, VIDEO_GENERATION_FAILED) so integrations can react to completed or failed renders without polling.
-
-- **Human URL:** [https://docs.argil.ai/api-reference/introduction](https://docs.argil.ai/api-reference/introduction)
-- **Base URL:** `https://api.argil.ai/v1`
-
-#### Tags
-
-- Webhooks
-- Events
-- Callbacks
-
-#### Properties
-
-- [Documentation](https://docs.argil.ai/api-reference/introduction)
-- [OpenAPI](openapi/argil-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/argil.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/argil.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-## Common Properties
-
-- [LinkedIn](https://www.linkedin.com/company/argil-ai)
 - [Website](https://www.argil.ai/)
 - [Documentation](https://docs.argil.ai)
-- [Plans](plans/argil-plans-pricing.yml)
-- [Rate Limits](rate-limits/argil-rate-limits.yml)
-- [Fin Ops](finops/argil-finops.yml)
+- [Blog](https://www.argil.ai/blog)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 26.9** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 52.3 |
+| Contract governance | 0.0 |
+| Operational transparency | 7.9 |
+| Developer ergonomics | 32.1 |
+| Access clarity | 7.9 |
+
+**Agent readiness 17.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 10.5** — AI & Biometrics
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/argil/](https://apis.io/providers/argil/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Argil: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/argil/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
